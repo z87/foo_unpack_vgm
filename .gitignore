@@ -1,0 +1,10 @@
+/dependencies
+
+.vs
+/msvc-build.config.ps1
+/msvc-build*.log
+*.aps
+
+**/Debug
+**/Release
+/bin

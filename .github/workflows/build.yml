@@ -1,0 +1,58 @@
+name: Windows build
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore: ['**.md', '.gitignore']
+  pull_request:
+    branches: [ main ]
+    paths-ignore: ['**.md', '.gitignore']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Visual Studio
+    runs-on: windows-2022
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Initialize build environment
+        shell: cmd
+        run: powershell -ExecutionPolicy Bypass -NoProfile -File .\msvc-build.ps1 Init
+
+      - name: Build
+        shell: cmd
+        run: powershell -ExecutionPolicy Bypass -NoProfile -File .\msvc-build.ps1 Build
+
+      - name: Prepare files for packaging
+        shell: powershell
+        run: powershell -ExecutionPolicy Bypass -NoProfile -File .\msvc-build.ps1 PackageArtifacts
+
+      - name: Upload foobar2000 component
+        uses: actions/upload-artifact@v7
+        with:
+          name: foo_unpack_vgm.fb2k-component
+          path: ${{github.workspace}}\bin\foo_unpack_vgm.fb2k-component
+          archive: false
+
+      - name: Update tag
+        if: github.event_name != 'pull_request'
+        run: |
+          git tag -f latest
+          git push origin latest -f
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload release
+        if: github.event_name != 'pull_request'
+        uses: svenstaro/upload-release-action@latest
+        with:
+          tag: latest
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          release_name: foo_unpack_vgm
+          file: bin\foo_unpack_vgm.fb2k-component
+          overwrite: true

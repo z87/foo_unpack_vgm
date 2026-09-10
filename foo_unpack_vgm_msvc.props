@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <VCmnDependenciesDir>../dependencies</VCmnDependenciesDir>
+    <VFooAdditionalIncludeDirectories>..;$(VCmnDependenciesDir)/wtl/include;$(VCmnDependenciesDir)/foobar;$(VCmnDependenciesDir)/foobar/foobar2000</VFooAdditionalIncludeDirectories>
+    <VCmnAdditionalDependencies64 />
+    <VFooAdditionalDependencies64>$(VCmnAdditionalDependencies64);$(VCmnDependenciesDir)/foobar/foobar2000/shared/shared-x64.lib</VFooAdditionalDependencies64>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="VCmnDependenciesDir">
+      <Value>$(VCmnDependenciesDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="VFooAdditionalIncludeDirectories">
+      <Value>$(VFooAdditionalIncludeDirectories)</Value>
+    </BuildMacro>
+    <BuildMacro Include="VCmnAdditionalDependencies64">
+      <Value>$(VCmnAdditionalDependencies64)</Value>
+    </BuildMacro>
+    <BuildMacro Include="VFooAdditionalDependencies64">
+      <Value>$(VFooAdditionalDependencies64)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
